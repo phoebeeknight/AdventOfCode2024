@@ -25,7 +25,7 @@ if (File.Exists(textFile))
             List<int> secondNums = new List<int>();
             foreach (string line in lines)
             {
-                string[] numCodes = line.Split("   ");
+                string[] numCodes = line.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < numCodes.Length; i++)
                 {
                     if (i == 0)
@@ -59,9 +59,6 @@ if (File.Exists(textFile))
             List<int> totalNum2 = new List<int>();
             foreach (int firstNum in firstNums)
             {
-                if (firstNum == 11652)
-                    Console.WriteLine("found!");
-
                 var duplicates = secondNums.GroupBy(x => x)
                .Where(g => g.Count() >= 1)
                .Where (g => g.Key == firstNum)
@@ -76,16 +73,16 @@ if (File.Exists(textFile))
                 {
                     totalNum2.Add(firstNum * duplicates.First());
 
-                    Console.WriteLine(firstNum.ToString() + " appears " + duplicates.First().ToString() + " times in right list");
-                    Console.WriteLine(firstNum.ToString() + " * " + duplicates.First().ToString() + " = " + (firstNum * duplicates.First()).ToString());
+                    //Console.WriteLine(firstNum.ToString() + " appears " + duplicates.First().ToString() + " times in right list");
+                    //Console.WriteLine(firstNum.ToString() + " * " + duplicates.First().ToString() + " = " + (firstNum * duplicates.First()).ToString());
                 }
-                else
-                {
-                    totalNum2.Add(firstNum * 0);
+                //else
+                //{
+                //    totalNum2.Add(firstNum * 0);
 
-                    Console.WriteLine(firstNum.ToString() + " appears 0 times in right list");
-                    Console.WriteLine(firstNum.ToString() + " * 0 = " + (firstNum * 0).ToString());
-                }
+                //    Console.WriteLine(firstNum.ToString() + " appears 0 times in right list");
+                //    Console.WriteLine(firstNum.ToString() + " * 0 = " + (firstNum * 0).ToString());
+                //}
             }
 
             //Calculate the sum
