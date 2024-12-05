@@ -48,7 +48,7 @@ if (File.Exists(textFile))
 
             //Calculate the sum
             string total1 = totalNum1.Sum().ToString();
-            Console.WriteLine("Part 1: Total distance is " + total1 + " \n");
+            Console.WriteLine("Part 1: Total distance is " + total1 + " \n");//2166959
 
             //Part 2
 
@@ -67,7 +67,7 @@ if (File.Exists(textFile))
 
             //Calculate the sum
             string total2 = totalNum2.Sum().ToString();
-            Console.WriteLine("Part 2: Total similarity score is " + total2 + " \n");
+            Console.WriteLine("Part 2: Total similarity score is " + total2 + " \n");//23741109
 
             #endregion
             break;
@@ -75,18 +75,15 @@ if (File.Exists(textFile))
         case "2":
             Console.WriteLine("******** Day 2 - Advent of Code ********");
             #region Day 2
+           
+            List<string> unsafeLines = new List<string>();
 
+            //Part 1
             int safeReports1 = 0;
-            int safeReports2 = 0;
+            bool IsSafe1 = false;
             foreach (string line in lines)
-            {               
-                string[] numCodes = line.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries);
-                int IsIncrease1 = 0;
-                int IsIncrease2 = 0;
-                bool IsSafe1 = false;
-                bool IsSafe2 = false;
-
-                //Part 1
+            {
+                string[] numCodes = line.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries);               
                 for (int i = 0; i < numCodes.Length; i++)
                 {
                     if (i + 1 < numCodes.Length)
@@ -97,6 +94,8 @@ if (File.Exists(textFile))
                         //makesure the differences gap is between 1-3
                         if (differences > 0 && differences <= 3)
                         {
+                            int IsIncrease1 = 0;
+                            int IsIncrease2 = 0;
                             if (i + 2 < numCodes.Length)
                             {
                                 //0 = decrease, 1 = increase
@@ -104,7 +103,7 @@ if (File.Exists(textFile))
                                 IsIncrease2 = (int.Parse(numCodes[i + 1]) > int.Parse(numCodes[i + 2]) ? 1 : 0);
 
                                 //find if it's continue decreaseing or increasing
-                                IsSafe1 = IsIncrease1 == IsIncrease2 ? true : false;
+                                IsSafe1 = (IsIncrease1 == IsIncrease2) ? true : false;
                             }
                         }
                         else
@@ -118,8 +117,20 @@ if (File.Exists(textFile))
                 //record how many safe reports
                 if (IsSafe1)
                     safeReports1++;
+                else
+                    unsafeLines.Add(line);
+            }
 
-                //Part 2
+            Console.WriteLine("Part 1: Total Safe Reports is " + safeReports1.ToString() + " \n"); //559
+
+
+            // Part 2
+            int safeReports2 = 0;           
+            foreach (string unsafeLine in unsafeLines)
+            {
+                bool IsSafe2 = false;
+                int IsRemoved = 0;
+                string[] numCodes = unsafeLine.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < numCodes.Length; i++)
                 {
                     if (i + 1 < numCodes.Length)
@@ -127,14 +138,32 @@ if (File.Exists(textFile))
                         //find the differences
                         int differences = Math.Abs(int.Parse(numCodes[i]) - int.Parse(numCodes[i + 1]));
 
-                        //makesure the differences gap is between 0-3
-                        if (differences >= 0 && differences <= 3)
-                            IsSafe2 = true;
+                        //makesure the differences gap is between 1-3
+                        if (differences > 0 && differences <= 3)
+                        {
+                            int IsIncrease1 = 0;
+                            int IsIncrease2 = 0;
+                            if (i + 2 < numCodes.Length)
+                            {
+                                //0 = decrease, 1 = increase
+                                IsIncrease1 = (int.Parse(numCodes[i]) > int.Parse(numCodes[i + 1]) ? 1 : 0);
+                                IsIncrease2 = (int.Parse(numCodes[i + 1]) > int.Parse(numCodes[i + 2]) ? 1 : 0);
+
+                                //find if it's continue decreaseing or increasing
+                                IsRemoved = (IsIncrease1 == IsIncrease2) ? + 0 : + 1;
+                            }
+                        }
                         else
-                            IsSafe2 = false;
+                            IsRemoved++;
                     }
-                    if (!IsSafe2)
+
+                    if (IsRemoved > 1)
+                    {
+                        IsSafe2 = false;
                         break;
+                    }
+                    else
+                        IsSafe2 = true;
                 }
 
                 //record how many safe reports
@@ -142,8 +171,7 @@ if (File.Exists(textFile))
                     safeReports2++;
             }
 
-            Console.WriteLine("Part 1: Total Safe Reports is " + safeReports1.ToString() + " \n");
-            Console.WriteLine("Part 2: Total Safe Reports is " + safeReports2.ToString() + " \n");
+            Console.WriteLine("Part 2: Total Safe Reports is " + (safeReports1 + safeReports2).ToString() + " \n"); //817
 
             #endregion
             break;
