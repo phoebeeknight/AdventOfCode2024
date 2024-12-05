@@ -44,10 +44,7 @@ if (File.Exists(textFile))
             //Calculate find the differences
             List<int> totalNum1 = new List<int>();
             for (int i = 0; i < firstNums.Count; i++)
-            {
                 totalNum1.Add(Math.Abs(firstNums[i] - secondNums[i]));
-                //Console.WriteLine((i + 1).ToString() + ". Distance between " + firstNums[i].ToString() + " and " + secondNums[i].ToString() + " is " + (Math.Abs(firstNums[i] - secondNums[i])).ToString());
-            }
 
             //Calculate the sum
             string total1 = totalNum1.Sum().ToString();
@@ -65,24 +62,8 @@ if (File.Exists(textFile))
                .Select(y => y.Count())
                .ToList();
 
-              //  var secondNumDuplicates = secondNums.GroupBy(x => x)
-              //.Where(g => g.Count() > 1)
-              //.ToDictionary(x => x.Key, y => y.Count());
-
                 if (duplicates.Count > 0)
-                {
                     totalNum2.Add(firstNum * duplicates.First());
-
-                    //Console.WriteLine(firstNum.ToString() + " appears " + duplicates.First().ToString() + " times in right list");
-                    //Console.WriteLine(firstNum.ToString() + " * " + duplicates.First().ToString() + " = " + (firstNum * duplicates.First()).ToString());
-                }
-                //else
-                //{
-                //    totalNum2.Add(firstNum * 0);
-
-                //    Console.WriteLine(firstNum.ToString() + " appears 0 times in right list");
-                //    Console.WriteLine(firstNum.ToString() + " * 0 = " + (firstNum * 0).ToString());
-                //}
             }
 
             //Calculate the sum
