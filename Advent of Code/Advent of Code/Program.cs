@@ -57,9 +57,9 @@ if (File.Exists(textFile))
             foreach (int firstNum in firstNums)
             {
                 var duplicates = secondNums.GroupBy(x => x)
-               .Where(g => g.Count() >= 1)
-               .Where (g => g.Key == firstNum)
-               .Select(y => y.Count())
+               .Where(x => x.Count() >= 1)
+               .Where (x => x.Key == firstNum)
+               .Select(x => x.Count())
                .ToList();
 
                 if (duplicates.Count > 0)
