@@ -76,13 +76,17 @@ if (File.Exists(textFile))
             Console.WriteLine("******** Day 2 - Advent of Code ********");
             #region Day 2
 
-            int safeReports = 0;
+            int safeReports1 = 0;
+            int safeReports2 = 0;
             foreach (string line in lines)
-            {
+            {               
                 string[] numCodes = line.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries);
                 int IsIncrease1 = 0;
                 int IsIncrease2 = 0;
-                bool IsSafe = false;
+                bool IsSafe1 = false;
+                bool IsSafe2 = false;
+
+                //Part 1
                 for (int i = 0; i < numCodes.Length; i++)
                 {
                     if (i + 1 < numCodes.Length)
@@ -100,23 +104,46 @@ if (File.Exists(textFile))
                                 IsIncrease2 = (int.Parse(numCodes[i + 1]) > int.Parse(numCodes[i + 2]) ? 1 : 0);
 
                                 //find if it's continue decreaseing or increasing
-                                IsSafe = IsIncrease1 == IsIncrease2 ? true : false;
+                                IsSafe1 = IsIncrease1 == IsIncrease2 ? true : false;
                             }
                         }
                         else
-                            IsSafe = false;
+                            IsSafe1 = false;
                     }
 
-                    if (!IsSafe)
+                    if (!IsSafe1)
                         break;
                 }
 
                 //record how many safe reports
-                if (IsSafe)
-                    safeReports++;
+                if (IsSafe1)
+                    safeReports1++;
+
+                //Part 2
+                for (int i = 0; i < numCodes.Length; i++)
+                {
+                    if (i + 1 < numCodes.Length)
+                    {
+                        //find the differences
+                        int differences = Math.Abs(int.Parse(numCodes[i]) - int.Parse(numCodes[i + 1]));
+
+                        //makesure the differences gap is between 0-3
+                        if (differences >= 0 && differences <= 3)
+                            IsSafe2 = true;
+                        else
+                            IsSafe2 = false;
+                    }
+                    if (!IsSafe2)
+                        break;
+                }
+
+                //record how many safe reports
+                if (IsSafe2)
+                    safeReports2++;
             }
 
-            Console.WriteLine("Part 2: Total Safe Reports is " + safeReports.ToString() + " \n");
+            Console.WriteLine("Part 1: Total Safe Reports is " + safeReports1.ToString() + " \n");
+            Console.WriteLine("Part 2: Total Safe Reports is " + safeReports2.ToString() + " \n");
 
             #endregion
             break;
