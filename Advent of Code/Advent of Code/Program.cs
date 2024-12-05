@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.Collections.Generic;
+using System.Linq;
 
 Console.WriteLine("Enter Day of Advent of Code:");
 
@@ -45,7 +46,7 @@ if (File.Exists(textFile))
             for (int i = 0; i < firstNums.Count; i++)
             {
                 totalNum1.Add(Math.Abs(firstNums[i] - secondNums[i]));
-                Console.WriteLine((i + 1).ToString() + ". Distance between " + firstNums[i].ToString() + " and " + secondNums[i].ToString() + " is " + (Math.Abs(firstNums[i] - secondNums[i])).ToString());
+                //Console.WriteLine((i + 1).ToString() + ". Distance between " + firstNums[i].ToString() + " and " + secondNums[i].ToString() + " is " + (Math.Abs(firstNums[i] - secondNums[i])).ToString());
             }
 
             //Calculate the sum
@@ -58,18 +59,33 @@ if (File.Exists(textFile))
             List<int> totalNum2 = new List<int>();
             foreach (int firstNum in firstNums)
             {
-                if (firstNum > 1)
+                if (firstNum == 11652)
                     Console.WriteLine("found!");
 
-                var duplicates = secondNums.GroupBy(x => firstNum)
-               //.Where(g => g.Count() > 1)
-               .Select(y => y.Key)
+                var duplicates = secondNums.GroupBy(x => x)
+               .Where(g => g.Count() >= 1)
+               .Where (g => g.Key == firstNum)
+               .Select(y => y.Count())
                .ToList();
-                                
-                totalNum2.Add(firstNum * duplicates.Count);
 
-                Console.WriteLine(firstNum.ToString() + " appears " + duplicates.ToString() + " times in right list");
-                Console.WriteLine(firstNum.ToString() + " * " + duplicates.ToString() + " = " + (firstNum * duplicates.Count).ToString());
+              //  var secondNumDuplicates = secondNums.GroupBy(x => x)
+              //.Where(g => g.Count() > 1)
+              //.ToDictionary(x => x.Key, y => y.Count());
+
+                if (duplicates.Count > 0)
+                {
+                    totalNum2.Add(firstNum * duplicates.First());
+
+                    Console.WriteLine(firstNum.ToString() + " appears " + duplicates.First().ToString() + " times in right list");
+                    Console.WriteLine(firstNum.ToString() + " * " + duplicates.First().ToString() + " = " + (firstNum * duplicates.First()).ToString());
+                }
+                else
+                {
+                    totalNum2.Add(firstNum * 0);
+
+                    Console.WriteLine(firstNum.ToString() + " appears 0 times in right list");
+                    Console.WriteLine(firstNum.ToString() + " * 0 = " + (firstNum * 0).ToString());
+                }
             }
 
             //Calculate the sum
